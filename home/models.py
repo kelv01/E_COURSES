@@ -1,22 +1,22 @@
 from django.db import models
+from datetime import timedelta
  
+ #MODELS FOR COURSE SUBJECT
 class Subjects(models.Model):
     subjectname = models.CharField(max_length=30)
-    subjectImage = models.ImageField(upload_to='subjectimages',)
+    subjectImage = models.ImageField(upload_to='subjectimages',) #upload to media folder
+    subjectDescription = models.TextField()
  
 
-
+#MODELS FOR COURSES
 class Course(models.Model):
-    pass
+    courseSubject = models.ForeignKey(Subjects, on_delete=models.CASCADE,name="course")#relationship for subjects to course
+    courseImage = models.ImageField(upload_to='subjectimages')
+    courseName = models.CharField(max_length=100)
+    coursePrice = models.PositiveIntegerField(help_text='Price in dollars')
+    courseDuration = models.DurationField(default=timedelta(hours=5,minutes=20))
 
-
-class Teachers(models.Model):
-    pass
-
-
-
-
-
+#made some db migrations
 
 
 
@@ -25,13 +25,15 @@ class Teachers(models.Model):
 
 
 
+"""
 
-"""genderInstance =(
+#gender drop down
+genderInstance =(
     ('Male', 'Male')
     ('Female', 'Female')
     ('Other', 'Other')
 )
-# Create your models here.
+# some of the  models used to capture in django. 
 class UserInformation(models.Model):
     first_name = models.CharField(max_length=30)
     user_story =models.TextField(null=True,blank=True)
