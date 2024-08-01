@@ -6,17 +6,32 @@ class Subjects(models.Model):
     subjectname = models.CharField(max_length=30)
     subjectImage = models.ImageField(upload_to='subjectimages',) #upload to media folder
     subjectDescription = models.TextField()
- 
+
+
+    def __str__(self):
+        return self.subjectname
+
+
+#controlling pluralization of  subject 
+    class Meta:
+        verbose_name = 'Subjects'
+        verbose_name_plural = 'Subjects'
+
+      
 
 #MODELS FOR COURSES
 class Course(models.Model):
-    courseSubject = models.ForeignKey(Subjects, on_delete=models.CASCADE,name="course")#relationship for subjects to course
-    courseImage = models.ImageField(upload_to='subjectimages')
-    courseName = models.CharField(max_length=100)
-    coursePrice = models.PositiveIntegerField(help_text='Price in dollars')
-    courseDuration = models.DurationField(default=timedelta(hours=5,minutes=20))
+    courseSubject = models.ForeignKey(Subjects, on_delete=models.CASCADE,name="course", verbose_name="Course Subject")#relationship for subjects to course
+    courseImage = models.ImageField(upload_to='subjectimages',help_text="image size 100 by 100",verbose_name="Course Image")
+    courseName = models.CharField(max_length=100,verbose_name="Course Name")
+    coursePrice = models.PositiveIntegerField(help_text='Price in dollars',verbose_name="Course Price")
+    courseDuration = models.DurationField(default=timedelta(hours=5,minutes=20),verbose_name="Course Duration")
 
 #made some db migrations
+
+    def __str__(self):
+        return self.courseName
+ 
 
 
 

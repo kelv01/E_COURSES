@@ -14,10 +14,48 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
+
+
+
+"""from django.contrib import admin
 from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
+]"""
+
+from django.contrib import admin
+
+from django.urls import path,include,re_path
+from django.conf import settings
+from django.conf.urls.static import static
+from django.views.static import serve
+#from django.views.generic import RedirectView
+
+
+#admin.site.site_header="Dtech website"
+#admin.site.site_title="Dtech website"
+#admin.site.index_title="Dtech website"
+
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('home.urls')),
+    re_path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}), 
+    re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}), 
+    #re_path(r'^favicon\.ico', RedirectView.as_view(url='/static/images/favicon.ico'), name='favicon'),
+    #path('favicon.ico', RedirectView.as_view(url='/static/images/favicon.ico'), name='favicon'),
+    #path('favicon.ico', serve,{'path': 'static/images/favicon.ico'}), 
+    #path('favicon.ico', serve,{'path': 'static/images/favicon.ico'}), 
+    #path('favicon.ico', serve,{'path': 'static/images/favicon.ico'}),'
+    
+
+
 ]
+
+urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns = urlpatterns + static(settings.MEDIA_URL, STATIC_URL=settings.STATIC_ROOT)
+
+
+
